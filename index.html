@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>THEEAGLEE VIP SHOP</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            overflow-x: hidden;
+        }
+
+        .header-bar {
+            width: 100%;
+            max-width: 390px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .top-badge {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 100%;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 390px;
+            text-align: center;
+            margin: auto 0;
+        }
+
+        .screen {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 25px 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1, h2 {
+            font-size: 18px;
+            font-weight: 900;
+            margin-bottom: 12px;
+            color: #ffcc00;
+            text-shadow: 0 2px 10px rgba(255,204,0,0.3);
+        }
+
+        p {
+            font-size: 12px;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        .input-box {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 15px;
+            outline: none;
+            text-align: center;
+            letter-spacing: 4px;
+        }
+
+        /* Bilqillaydigan Liquid Glass Tugmalar */
+        .liquid-btn {
+            background: linear-gradient(135deg, rgba(241, 39, 17, 0.9) 0%, rgba(245, 175, 25, 0.9) 100%);
+            backdrop-filter: blur(12px);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 14px;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 800;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(245, 175, 25, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+            transition: all 0.2s ease;
+            animation: liquid-pulse 2s infinite ease-in-out;
+            margin-top: 10px;
+        }
+
+        .secondary-btn {
+            background: linear-gradient(135deg, rgba(0, 176, 155, 0.9), rgba(150, 201, 61, 0.9));
+            box-shadow: 0 8px 25px rgba(0, 176, 155, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+        }
+
+        @keyframes liquid-pulse {
+            0% { transform: scale(1); box-shadow: 0 8px 25px rgba(245, 175, 25, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.6); }
+            50% { transform: scale(1.02); box-shadow: 0 12px 30px rgba(245, 175, 25, 0.6), inset 0 1px 4px rgba(255, 255, 255, 0.9); }
+            100% { transform: scale(1); box-shadow: 0 8px 25px rgba(245, 175, 25, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.6); }
+        }
+
+        .liquid-btn:active {
+            transform: scale(0.95) !important;
+            animation: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Do'kon kartochkalari */
+        .product-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 10px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .product-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: #00ffcc;
+        }
+
+        .product-price {
+            font-size: 12px;
+            color: #ffcc00;
+            font-weight: 700;
+        }
+
+        .timer-box {
+            background: rgba(255, 71, 87, 0.2);
+            border: 1px solid #ff4757;
+            padding: 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 800;
+            color: #ff6b81;
+            margin-bottom: 10px;
+        }
+
+        .card-number {
+            background: rgba(0,0,0,0.4);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: #fff;
+            border: 1px dashed rgba(255,255,255,0.4);
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .footer-brand {
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-bar">
+        <div class="top-badge">✨ BOT CREATED BY THEEAGLEE</div>
+    </div>
+
+    <div class="container">
+        <!-- 1. PIN-KOD OYNASI -->
+        <div id="pin-screen" class="screen">
+            <h2>🔒 XAVFSIZLIK PAROLI</h2>
+            <p>Iltimos, do'konga kirish uchun PIN-kodni kiriting (PIN: 9867)</p>
+            <input type="password" id="pin-input" class="input-box" maxlength="4" placeholder="••••">
+            <button class="liquid-btn" onclick="checkPin()">KIRISH</button>
+        </div>
+
+        <!-- 2. DO'KON VITRINI -->
+        <div id="shop-screen" class="screen hidden">
+            <h2>💎 VIP BOTLAR DO'KONI</h2>
+            <p>Kerakli botni tanlang va chegirma oling!</p>
+            
+            <div class="product-card">
+                <div class="product-title">@BE127VIPBOT</div>
+                <div class="product-price">Narxi: 100.000 so'm</div>
+                <button class="liquid-btn" style="padding: 8px; font-size: 12px; margin-top: 5px;" onclick="askDiscount()">SOTIB OLISH</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-title">@Apple_BE127_Signal_bot</div>
+                <div class="product-price">Narxi: 100.000 so'm</div>
+                <button class="liquid-btn" style="padding: 8px; font-size: 12px; margin-top: 5px;" onclick="askDiscount()">SOTIB OLISH</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-title">@olmasignal_hack_bot</div>
+                <div class="product-price">Narxi: 100.000 so'm</div>
+                <button class="liquid-btn" style="padding: 8px; font-size: 12px; margin-top: 5px;" onclick="askDiscount()">SOTIB OLISH</button>
+            </div>
+        </div>
+
+        <!-- 3. CHEGIRMA SORASH OYNASI -->
+        <div id="discount-screen" class="screen hidden">
+            <h2>🎁 MAXSUS TAKLIF!</h2>
+            <p style="font-size: 14px; color: #fff; margin: 15px 0;">Chegirma olasizmi?</p>
+            <button class="liquid-btn secondary-btn" onclick="applyDiscount()">HA, CHEGIRMA OLISH (75%)</button>
+            <button class="liquid-btn" style="background: rgba(255,255,255,0.2); margin-top: 8px;" onclick="backToShop()">Yo'q, shart emas</button>
+        </div>
+
+        <!-- 4. TO'LOV OYNASI -->
+        <div id="payment-screen" class="screen hidden">
+            <h2>💳 CLICK ORQALI TO'LOV</h2>
+            <div class="timer-box" id="timer">Chegirma vaqti: 15:00</div>
+            <p>Quyidagi karta raqamiga <b>25.000 so'm</b> (75% chegirma bilan) o'tkazing:</p>
+            <div class="card-number" onclick="copyCard()" title="Nusxalash uchun bosing">8802801263275391</div>
+            <p style="font-size: 10px; color: #88f;">(Karta raqamiga bosib nusxalab olishingiz mumkin)</p>
+            <button class="liquid-btn secondary-btn" onclick="finishPayment()">TO'LOV QILDIM ✅</button>
+        </div>
+
+        <!-- 5. TEKSHIRUV VA ADMIN BILAN BOG'LANISH -->
+        <div id="status-screen" class="screen hidden">
+            <h2>⏳ TEKshirilmoqda</h2>
+            <p style="font-size: 13px; line-height: 1.5; margin: 15px 0;">
+                Iltimos tekshirilmoqda, bu 1 daqiqadan 10 daqiqagacha vaqt olishi mumkin!
+            </p>
+            <button class="liquid-btn" onclick="contactAdmin()">💬 ADMIN BILAN BOG'LANISH</button>
+        </div>
+    </div>
+
+    <div class="footer-brand">
+        POWERED BY THEEAGLEE
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        let timerInterval;
+
+        function checkPin() {
+            let pin = document.getElementById("pin-input").value.trim();
+            if (pin === "9867") {
+                document.getElementById("pin-screen").classList.add("hidden");
+                document.getElementById("shop-screen").classList.remove("hidden");
+            } else {
+                alert("PIN-kod xato! (To'g'ri kod: 9867)");
+            }
+        }
+
+        function askDiscount() {
+            document.getElementById("shop-screen").classList.add("hidden");
+            document.getElementById("discount-screen").classList.remove("hidden");
+        }
+
+        function backToShop() {
+            document.getElementById("discount-screen").classList.add("hidden");
+            document.getElementById("shop-screen").classList.remove("hidden");
+        }
+
+        function applyDiscount() {
+            document.getElementById("discount-screen").classList.add("hidden");
+            document.getElementById("payment-screen").classList.remove("hidden");
+            startTimer(15 * 60); // 15 daqiqa
+        }
+
+        function startTimer(duration) {
+            let timer = duration, minutes, seconds;
+            clearInterval(timerInterval);
+            timerInterval = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                document.getElementById("timer").innerText = "Chegirma vaqti: " + minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(timerInterval);
+                    alert("Chegirma vaqti tugadi!");
+                    backToShop();
+                }
+            }, 1000);
+        }
+
+        function copyCard() {
+            navigator.clipboard.writeText("8802801263275391");
+            alert("Karta raqami nusxalandi!");
+        }
+
+        function finishPayment() {
+            document.getElementById("payment-screen").classList.add("hidden");
+            document.getElementById("status-screen").classList.remove("hidden");
+        }
+
+        function contactAdmin() {
+            let text = encodeURIComponent("Salom! Men shartnoma bo'yicha to'lov qildim, Iltimos tekshirib ko'ring.");
+            window.open("https://t.me/BE127BOTADMIN?text=" + text, "_blank");
+        }
+    </script>
+</body>
+</html>
