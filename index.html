@@ -223,8 +223,6 @@
             cursor: pointer;
             margin-bottom: 12px;
             box-shadow: 0 8px 20px rgba(0, 136, 255, 0.35);
-            text-decoration: none;
-            display: block;
         }
 
         .upload-box {
@@ -348,15 +346,16 @@
             <div class="modal-title">💳 To'lov qilish</div>
             <div class="modal-desc">
                 To'lov usuli faqat Click orqali.<br>
-                Ko'rsatilgan kartaga <b>25,000 so'm</b> (75% chegirma bilan) o'tkazing:
+                Ko'rsatilgan kartaga <b>25,000 so'm</b> o'tkazing:
             </div>
 
             <div class="card-box" onclick="copyCard()" title="Nusxalash uchun bosing">
                 8802801263275391
             </div>
 
-            <button class="btn-click" onclick="openClickApp()">
-                🩵 Click ilovasi orqali to'lash (25,000 so'm)
+            <!-- Click tugmasi bosilganda karta raqamini nusxalab, foydalanuvchiga Click ilovasiga o'tishni aytadi -->
+            <button class="btn-click" onclick="copyAndAlertClick()">
+                🩵 Click orqali to'lash (Kartani nusxalash)
             </button>
 
             <div class="upload-box" onclick="document.getElementById('receipt-input').click()">
@@ -406,6 +405,7 @@
         let timerInterval;
         let selectedProductName = "";
         let receiptAttached = false;
+        let receiptFileName = "";
 
         function openShop() {
             document.getElementById("start-screen").classList.add("hidden");
@@ -415,6 +415,7 @@
         function selectProduct(name) {
             selectedProductName = name;
             receiptAttached = false;
+            receiptFileName = "";
             document.getElementById("upload-label").innerText = "🖼️ Chek rasmini biriktirish (Tanlash)";
             document.getElementById("payment-modal").classList.remove("hidden");
             startTimer(20 * 60);
@@ -452,14 +453,16 @@
             alert("Karta raqami nusxalandi!");
         }
 
-        function openClickApp() {
-            window.open("https://my.click.uz/services/pay?service_id=12531&merchant_id=18432&amount=25000&card_num=8802801263275391", "_blank");
+        function copyAndAlertClick() {
+            navigator.clipboard.writeText("8802801263275391");
+            alert("✅ Karta raqami nusxalandi: 8802801263275391\n\nEndi Click ilovasiga kirib 25,000 so'm o'tkazing!");
         }
 
         function handleImageUpload(event) {
             if (event.target.files && event.target.files[0]) {
                 receiptAttached = true;
-                document.getElementById("upload-label").innerText = "✅ Chek rasmi biriktirildi!";
+                receiptFileName = event.target.files[0].name;
+                document.getElementById("upload-label").innerText = "✅ Chek tanlandi: " + receiptFileName;
             }
         }
 
@@ -470,7 +473,8 @@
         }
 
         function openAdmin() {
-            let text = encodeURIComponent("Salom! Men (" + selectedProductName + ") uchun to'lov qildim, mana chek. Iltimos yaxshi tekshirib ko'ring!");
+            let receiptStatus = receiptAttached ? "✅ Chek tanlandi (" + receiptFileName + ")" : "⚠️ Chek tanlanmadi";
+            let text = encodeURIComponent("Salom! Men (" + selectedProductName + ") uchun 25,000 so'm to'lov qildim.\n" + receiptStatus + "\nIltimos tekshirib botni tashlab yuboring!");
             window.open("https://t.me/BE127BOTADMIN?text=" + text, "_blank");
         }
 
@@ -480,7 +484,8 @@
                 id: Math.floor(1000 + Math.random() * 9000),
                 title: productName,
                 price: "25,000 so'm",
-                status: status
+                status: status,
+                hasReceipt: receiptAttached
             });
             localStorage.setItem("zynex_orders", JSON.stringify(orders));
         }
@@ -494,16 +499,20 @@
             } else {
                 historyList.innerHTML = "";
                 orders.forEach(order => {
+                    let receiptText = order.hasReceipt ? "✅ Chek biriktirilgan" : "⚠️ Chek yo'q";
                     historyList.innerHTML += `
                         <div class="order-item">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
                                 <span style="color: #38bdf8; font-size: 13px; font-weight: 700;">${order.title}</span>
                                 <span class="status-pending">${order.status}</span>
                             </div>
-                            <div style="font-size: 11px; color: #94a3b8; margin-bottom: 8px;">
+                            <div style="font-size: 11px; color: #94a3b8; margin-bottom: 4px;">
                                 ID: #${order.id} | Narx: ${order.price}
                             </div>
-                            <button onclick="openAdminWithID('${order.title}', ${order.id})" style="width: 100%; background: #243044; color: #38bdf8; border: none; padding: 8px; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer;">
+                            <div style="font-size: 10px; color: #22c55e; margin-bottom: 8px;">
+                                ${receiptText}
+                            </div>
+                            <button onclick="openAdminWithID('${order.title}', ${order.id}, ${order.hasReceipt})" style="width: 100%; background: #243044; color: #38bdf8; border: none; padding: 8px; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer;">
                                 💬 Admin bilan bog'lanish va chek yuborish
                             </button>
                         </div>
@@ -514,8 +523,9 @@
             document.getElementById("history-modal").classList.remove("hidden");
         }
 
-        function openAdminWithID(title, id) {
-            let text = encodeURIComponent("Salom! Men to'lov qildim, mana chek:\nBot: " + title + "\nBuyurtma ID: #" + id + "\nIltimos yaxshi tekshirib ko'ring!");
+        function openAdminWithID(title, id, hasReceipt) {
+            let receiptText = hasReceipt ? "✅ Chek tanlangan" : "⚠️ Chek yo'q";
+            let text = encodeURIComponent("Salom! Men to'lov qildim, iltimos tekshirib ko'ring:\nBot: " + title + "\nBuyurtma ID: #" + id + "\nHolati: " + receiptText);
             window.open("https://t.me/BE127BOTADMIN?text=" + text, "_blank");
         }
 
