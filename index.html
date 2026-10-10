@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>ZYNEX Store</title>
+    <title>BE127 VIP BOT SHOP</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
@@ -44,6 +44,7 @@
             width: 100%;
         }
 
+        /* Bilqillaydigan pushti icon */
         .icon-box {
             width: 100px;
             height: 100px;
@@ -53,8 +54,15 @@
             align-items: center;
             justify-content: center;
             font-size: 50px;
-            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.35);
+            box-shadow: 0 15px 35px rgba(168, 85, 247, 0.4);
             margin-bottom: 20px;
+            animation: pulse-glow 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0% { transform: scale(1); box-shadow: 0 15px 35px rgba(168, 85, 247, 0.4); }
+            50% { transform: scale(1.06); box-shadow: 0 20px 45px rgba(168, 85, 247, 0.7); }
+            100% { transform: scale(1); box-shadow: 0 15px 35px rgba(168, 85, 247, 0.4); }
         }
 
         .store-title {
@@ -137,6 +145,15 @@
             color: #22c55e;
         }
 
+        .discount-badge {
+            background: #ef4444;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 6px;
+            margin-left: 5px;
+        }
+
         .btn-green {
             background: #22c55e;
             color: #ffffff;
@@ -160,7 +177,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
@@ -179,7 +196,7 @@
             text-align: center;
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
             animation: modalPop 0.25s ease-out;
-            max-height: 85vh;
+            max-height: 90vh;
             overflow-y: auto;
         }
 
@@ -197,7 +214,8 @@
         .modal-desc {
             font-size: 12px;
             color: #94a3b8;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
+            line-height: 1.4;
         }
 
         .card-box {
@@ -223,7 +241,7 @@
             font-weight: 700;
             width: 100%;
             cursor: pointer;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             box-shadow: 0 8px 20px rgba(0, 136, 255, 0.35);
             display: flex;
             align-items: center;
@@ -232,11 +250,22 @@
             text-decoration: none;
         }
 
+        .upload-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 12px;
+            font-size: 12px;
+            color: #38bdf8;
+            cursor: pointer;
+        }
+
         .timer-text {
             font-size: 20px;
             font-weight: 900;
             color: #ef4444;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .btn-dark {
@@ -249,7 +278,7 @@
             font-weight: 600;
             width: 100%;
             cursor: pointer;
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         .btn-blue {
@@ -265,7 +294,6 @@
             margin-bottom: 10px;
         }
 
-        /* HISTORIC ORDER CARD */
         .order-item {
             background: #0f172a;
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -275,25 +303,9 @@
             text-align: left;
         }
 
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-
         .status-pending {
             color: #f59e0b;
             background: rgba(245, 158, 11, 0.15);
-            padding: 4px 8px;
-            border-radius: 8px;
-            font-size: 11px;
-        }
-
-        .status-success {
-            color: #22c55e;
-            background: rgba(34, 197, 94, 0.15);
             padding: 4px 8px;
             border-radius: 8px;
             font-size: 11px;
@@ -328,7 +340,7 @@
                 <div class="product-name">⚡ VIP Apple Signal Boti #1</div>
                 <div class="product-desc">Apple of Fortune va boshqa o'yinlar uchun maxsus yuqori aniqlikdagi VIP signal boti.</div>
                 <div class="product-footer">
-                    <div class="product-price">25,000 so'm</div>
+                    <div class="product-price">25,000 so'm <span class="discount-badge">-75%</span></div>
                     <button class="btn-green" onclick="selectProduct('⚡ VIP Apple Signal Boti #1')">Sotib olish</button>
                 </div>
             </div>
@@ -337,7 +349,7 @@
                 <div class="product-name">🎯 Pro Apple Signal Boti #2</div>
                 <div class="product-desc">Aniq bashorat va yuqori koeffitsientlarni ko'rsatuvchi professional signal boti.</div>
                 <div class="product-footer">
-                    <div class="product-price">25,000 so'm</div>
+                    <div class="product-price">25,000 so'm <span class="discount-badge">-75%</span></div>
                     <button class="btn-green" onclick="selectProduct('🎯 Pro Apple Signal Boti #2')">Sotib olish</button>
                 </div>
             </div>
@@ -346,7 +358,7 @@
                 <div class="product-name">💣 Mines VIP Hack Boti #3</div>
                 <div class="product-desc">Mines o'yini uchun minalar joylashuvini aniqlab beruvchi maxsus bot.</div>
                 <div class="product-footer">
-                    <div class="product-price">25,000 so'm</div>
+                    <div class="product-price">25,000 so'm <span class="discount-badge">-75%</span></div>
                     <button class="btn-green" onclick="selectProduct('💣 Mines VIP Hack Boti #3')">Sotib olish</button>
                 </div>
             </div>
@@ -357,20 +369,30 @@
     <div id="payment-modal" class="modal-overlay hidden">
         <div class="modal-card">
             <div class="modal-title">💳 To'lov qilish</div>
-            <div class="modal-desc">Karta raqamiga yoki Click orqali <b>25,000 so'm</b> o'tkazing:</div>
+            <div class="modal-desc">
+                To'lov usuli faqat Click orqali.<br>
+                Ko'rsatilgan kartaga <b>25,000 so'm</b> (75% chegirma bilan) o'tkazing:
+            </div>
 
             <div class="card-box" onclick="copyCard()" title="Nusxalash uchun bosing">
                 8802801263275391
             </div>
 
-            <a href="https://my.click.uz/services/pay?service_id=12531&merchant_id=18432&amount=25000&card_num=8802801263275391" target="_blank" class="btn-click">
-                🩵 Click orqali to'lash (25,000 so'm)
-            </a>
+            <!-- Click ilovasiga to'g'ridan-to'g'ri o'tuvchi tugma -->
+            <button class="btn-click" onclick="openClickApp()">
+                🩵 Click ilovasi orqali to'lash (25,000 so'm)
+            </button>
+
+            <!-- Chek rasmini yuklash -->
+            <div class="upload-box" onclick="document.getElementById('receipt-input').click()">
+                <span id="upload-label">🖼️ Chek rasmini biriktirish (Tanlash)</span>
+                <input type="file" id="receipt-input" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+            </div>
 
             <div class="timer-text" id="timer-display">20:00</div>
-            <div style="font-size: 11px; color: #94a3b8; margin-bottom: 16px;">Vaqt tugaguncha to'lovni qilib, chekni yuboring.</div>
+            <div style="font-size: 11px; color: #94a3b8; margin-bottom: 12px;">Vaqt tugaguncha to'lovni qilib, chekni yuboring.</div>
 
-            <button class="btn-purple" style="background: #22c55e; box-shadow: 0 8px 20px rgba(34,197,94,0.3); margin-bottom: 8px;" onclick="confirmPayment()">
+            <button class="btn-purple" style="background: #22c55e; box-shadow: 0 8px 20px rgba(34,197,94,0.3); margin-bottom: 6px;" onclick="confirmPayment()">
                 To'lov qildim (Chekni yuborish)
             </button>
             <button class="btn-dark" onclick="backToShop()">Bekor qilish</button>
@@ -385,20 +407,18 @@
                 Chekingiz adminga yuborildi. Pul tushgani tekshirilmoqda, iltimos kuting...
             </div>
 
-            <button class="btn-blue" onclick="openAdmin()">💬 Admin bilan bog'lanish</button>
+            <button class="btn-blue" onclick="openAdmin()">💬 Admin bilan bog'lanish va chek yuborish</button>
             <button class="btn-dark" onclick="backToShop()">🔙 Bosh menyuga qaytish</button>
         </div>
     </div>
 
-    <!-- 5-BOSQICH: BUYURTMALAR TARIXI OYNASI -->
+    <!-- 5-BOSQICH: BUYURTMALAR TARIXI -->
     <div id="history-modal" class="modal-overlay hidden">
         <div class="modal-card">
             <div class="modal-title">📜 Buyurtmalar holati</div>
             <div class="modal-desc">Barcha amalga oshirilgan to'lovlaringiz tarixi</div>
 
-            <div id="history-list">
-                <!-- Buyurtmalar JavaScript orqali kelib tushadi -->
-            </div>
+            <div id="history-list"></div>
 
             <button class="btn-dark" onclick="closeHistoryModal()">Yopish</button>
         </div>
@@ -410,6 +430,7 @@
 
         let timerInterval;
         let selectedProductName = "";
+        let receiptAttached = false;
 
         function openShop() {
             document.getElementById("start-screen").classList.add("hidden");
@@ -418,6 +439,8 @@
 
         function selectProduct(name) {
             selectedProductName = name;
+            receiptAttached = false;
+            document.getElementById("upload-label").innerText = "🖼️ Chek rasmini biriktirish (Tanlash)";
             document.getElementById("payment-modal").classList.remove("hidden");
             startTimer(20 * 60);
         }
@@ -454,27 +477,39 @@
             alert("Karta raqami nusxalandi!");
         }
 
-        function confirmPayment() {
-            // Tarixga saqlash
-            saveOrder(selectedProductName, "⏳ Kutilmoqda");
+        function openClickApp() {
+            // Click ilovasiga deep-link va universal havola
+            window.location.href = "click://pay?service_id=12531&merchant_id=18432&amount=25000&card_num=8802801263275391";
+            setTimeout(function() {
+                window.open("https://my.click.uz/services/pay?service_id=12531&merchant_id=18432&amount=25000&card_num=8802801263275391", "_blank");
+            }, 1000);
+        }
 
+        function handleImageUpload(event) {
+            if (event.target.files && event.target.files[0]) {
+                receiptAttached = true;
+                document.getElementById("upload-label").innerText = "✅ Chek rasmi biriktirildi!";
+            }
+        }
+
+        function confirmPayment() {
+            saveOrder(selectedProductName, "⏳ Kutilmoqda");
             document.getElementById("payment-modal").classList.add("hidden");
             document.getElementById("status-modal").classList.remove("hidden");
         }
 
         function openAdmin() {
-            let text = encodeURIComponent("Salom! Men (" + selectedProductName + ") uchun to'lov qildim. Iltimos tekshirib ko'ring.");
+            let text = encodeURIComponent("Salom! Men (" + selectedProductName + ") uchun to'lov qildim, mana chek. Iltimos yaxshi tekshirib ko'ring!");
             window.open("https://t.me/BE127BOTADMIN?text=" + text, "_blank");
         }
 
-        /* LOCALSTORAGE VA TARIX FUNKSIYALARI */
+        /* TARIX VA LOCALSTORAGE */
         function saveOrder(productName, status) {
             let orders = JSON.parse(localStorage.getItem("zynex_orders")) || [];
             orders.unshift({
                 id: Math.floor(1000 + Math.random() * 9000),
                 title: productName,
                 price: "25,000 so'm",
-                date: new Date().toLocaleDateString('uz-UZ'),
                 status: status
             });
             localStorage.setItem("zynex_orders", JSON.stringify(orders));
@@ -489,18 +524,17 @@
             } else {
                 historyList.innerHTML = "";
                 orders.forEach(order => {
-                    let statusClass = order.status.includes("Kutilmoqda") ? "status-pending" : "status-success";
                     historyList.innerHTML += `
                         <div class="order-item">
-                            <div class="order-header">
-                                <span style="color: #38bdf8;">${order.title}</span>
-                                <span class="${statusClass}">${order.status}</span>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                                <span style="color: #38bdf8; font-size: 13px; font-weight: 700;">${order.title}</span>
+                                <span class="status-pending">${order.status}</span>
                             </div>
                             <div style="font-size: 11px; color: #94a3b8; margin-bottom: 8px;">
                                 ID: #${order.id} | Narx: ${order.price}
                             </div>
                             <button onclick="openAdminWithID('${order.title}', ${order.id})" style="width: 100%; background: #243044; color: #38bdf8; border: none; padding: 8px; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer;">
-                                💬 Adminga yozish / Botni olish
+                                💬 Admin bilan bog'lanish va chek yuborish
                             </button>
                         </div>
                     `;
@@ -511,7 +545,7 @@
         }
 
         function openAdminWithID(title, id) {
-            let text = encodeURIComponent("Salom! Men buyurtma qilgan edim:\nBot: " + title + "\nBuyurtma ID: #" + id + "\nIltimos botni tashlab bering.");
+            let text = encodeURIComponent("Salom! Men to'lov qildim, mana chek:\nBot: " + title + "\nBuyurtma ID: #" + id + "\nIltimos yaxshi tekshirib ko'ring!");
             window.open("https://t.me/BE127BOTADMIN?text=" + text, "_blank");
         }
 
